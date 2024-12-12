@@ -1,0 +1,24 @@
+<script type="text/javascript" src="https://blockczech.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e-T/g2slup/b/9/c95134bc67d3a521bb3f4331beb9b804/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=cs-CZ&collectorId=54c2c1d1"></script>
+<script type="text/javascript">
+    // Function to wait for the collector script to be loaded and ready
+    function waitForCollector(collectorId, maxRetries = 20, interval = 500) {
+        let retries = 0;
+
+        const intervalId = setInterval(() => {
+            const collectorButton = document.querySelector(`#atlwdg-trigger`);
+            if (collectorButton) {
+                clearInterval(intervalId); // Stop checking
+                collectorButton.click(); // Trigger the collector
+            } else if (retries >= maxRetries) {
+                clearInterval(intervalId); // Stop trying after max retries
+                console.warn("JIRA Issue Collector did not load in time.");
+            }
+            retries++;
+        }, interval);
+    }
+
+    // Call the wait function after the script loads
+    window.onload = function () {
+        waitForCollector('54c2c1d1');
+    };
+</script>
