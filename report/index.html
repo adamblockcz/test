@@ -70,28 +70,35 @@
         async function fetchData() {
             try {
                 const response = await fetch('https://7guaphscsyrvelrn7urhzgtjbe0hjten.lambda-url.eu-central-1.on.aws/');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
                 const data = await response.json();
-                populateTable(data.issues);
+                populateTable(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         }
 
         // Function to populate the table with data
-        function populateTable(issues) {
-            const issuesBody = document.getElementById('issuesBody');
-            issues.forEach(issue => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${issue.key}</td>
-                    <td>${issue.fields.issuetype.name}</td>
-                    <td>${issue.fields.description}</td>
-                    <td>${issue.fields.priority.name}</td>
-                    <td>${issue.fields.status.name}</td>
-                    <td>${new Date(issue.fields.updated).toLocaleString()}</td>
-                `;
-                issuesBody.appendChild(row);
-            });
+        function populateTable(data) {
+            if (data && data.issues) {
+                const issuesBody = document.getElementById('issuesBody');
+                data.issues.forEach(issue => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${issue.key}</td>
+                        <td>${issue.fields.issuetype.name}</td>
+                        <td>${issue.fields.description}</td>
+                        <td>${issue.fields.priority.name}</td>
+                        <td>${issue.fields.status.name}</td>
+                        <td>${new Date(issue.fields.updated).toLocaleString()}</td>
+                    `;
+                    issuesBody.appendChild(row);
+                });
+            } else {
+                console.error('Data structure is not as expected:', data);
+            }
         }
 
         // Call the fetchData function when the page loads
