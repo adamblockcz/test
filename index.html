@@ -1,64 +1,144 @@
-<script type="text/javascript" src="https://blockczech.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e-T/g2slup/b/9/c95134bc67d3a521bb3f4331beb9b804/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=cs-CZ&collectorId=54c2c1d1"></script>
-<script type="text/javascript">
-    // Function to wait for the collector script to be loaded and ready
-    function waitForCollector(collectorId, maxRetries = 20, interval = 500) {
-        let retries = 0;
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systém hlášení chyb</title>
+    <style>
+        /* General styles */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f5f7; /* Jira-like background */
+            font-family: Arial, sans-serif;
+        }
 
-        const intervalId = setInterval(() => {
-            const collectorButton = document.querySelector(`#atlwdg-trigger`);
-            if (collectorButton) {
-                clearInterval(intervalId); // Stop checking
-                // Style the collector button to resemble Jira-like style
-                collectorButton.style.backgroundColor = '#0052CC'; // Jira blue
-                collectorButton.style.color = 'white';
-                collectorButton.style.border = 'none';
-                collectorButton.style.padding = '12px 24px';
-                collectorButton.style.fontSize = '16px';
-                collectorButton.style.cursor = 'pointer';
-                collectorButton.style.position = 'absolute';
-                collectorButton.style.left = '50%';
-                collectorButton.style.transform = 'translateX(-50%)';
+        /* Navbar styling */
+        .navbar {
+            width: 100%;
+            background-color: #0052CC;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-                // Create a new button with a Jira-like style
-                const redirectButton = document.createElement('button');
-                redirectButton.textContent = 'Go to Report';
-                redirectButton.style.backgroundColor = '#0052CC'; // Jira blue
-                redirectButton.style.color = 'white';
-                redirectButton.style.border = 'none';
-                redirectButton.style.padding = '12px 24px';
-                redirectButton.style.fontSize = '16px';
-                redirectButton.style.cursor = 'pointer';
-                redirectButton.style.position = 'absolute';
-                redirectButton.style.left = '50%';
-                redirectButton.style.transform = 'translateX(-50%)';
-                redirectButton.onclick = function() {
-                    window.location.href = 'https://adamblockcz.github.io/test/report/';
-                };
+        /* Container for the tiles */
+        .tile-container {
+            display: flex;
+            gap: 20px; /* Space between tiles */
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+        }
 
-                // Add the new button next to the collector button
-                const container = document.createElement('div');
-                container.style.display = 'flex';
-                container.style.gap = '20px';
-                container.style.justifyContent = 'center';
-                container.appendChild(collectorButton);
-                container.appendChild(redirectButton);
+        /* Styling for the tiles */
+        .tile-button {
+            background-color: #0052CC;
+            color: white;
+            border: none;
+            border-radius: 0;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none; /* Remove underline */
+            cursor: pointer;
+            box-shadow: none;
+            width: 200px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
 
-                // Center the buttons horizontally
-                container.style.position = 'absolute';
-                container.style.top = '50%';
-                container.style.transform = 'translateY(-50%)';
+        .tile-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-                document.body.appendChild(container);
-            } else if (retries >= maxRetries) {
-                clearInterval(intervalId); // Stop trying after max retries
-                console.warn("JIRA Issue Collector did not load in time.");
-            }
-            retries++;
-        }, interval);
-    }
+        /* Force consistent size for all buttons, even dynamically injected ones */
+        #atlwdg-trigger {
+            all: unset; /* Reset all styles from injected script */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: #0052CC !important;
+            color: white !important;
+            border: none !important;
+            width: 200px !important;
+            height: 150px !important;
+            font-size: 18px !important;
+            font-weight: bold !important;
+            text-decoration: none !important; /* Remove underline */
+            cursor: pointer !important;
+            box-shadow: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease; /* Add hover transition */
+        }
 
-    // Call the wait function after the script loads
-    window.onload = function () {
-        waitForCollector('54c2c1d1');
-    };
-</script>
+        #atlwdg-trigger:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+    <script type="text/javascript" src="https://blockczech.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e-T/g2slup/b/9/c95134bc67d3a521bb3f4331beb9b804/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=cs-CZ&collectorId=54c2c1d1"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        Systém hlášení chyb
+    </div>
+
+    <!-- Container for the tiles -->
+    <div class="tile-container">
+        <!-- Placeholder for the Jira Collector button -->
+        <button id="jira-collector" class="tile-button">Nahrávám...</button>
+        <!-- Button that redirects to the report -->
+        <button id="redirect-button" class="tile-button" onclick="redirectToReport()">Zobrazit seznam nahlášených chyb</button>
+    </div>
+
+    <script>
+        function redirectToReport() {
+            window.location.href = 'https://adamblockcz.github.io/test/report/';
+        }
+
+        function waitForCollector(collectorId, maxRetries = 20, interval = 500) {
+            let retries = 0;
+
+            const intervalId = setInterval(() => {
+                const collectorButton = document.querySelector(`#atlwdg-trigger`);
+                const placeholderButton = document.querySelector(`#jira-collector`);
+                
+                if (collectorButton) {
+                    clearInterval(intervalId); // Stop checking
+
+                    // Set the Jira button's styles and text to match the placeholder
+                    collectorButton.textContent = 'Nahlásit chybu v Cicero 1.0';
+                    collectorButton.className = 'tile-button'; // Apply tile-button styles
+                    placeholderButton.replaceWith(collectorButton); // Replace the placeholder
+                } else if (retries >= maxRetries) {
+                    clearInterval(intervalId); // Stop trying after max retries
+                    placeholderButton.textContent = "Nahlásit chybu v Cicero 1.0 (Nedostupné)";
+                    placeholderButton.disabled = true;
+                    placeholderButton.style.cursor = "not-allowed";
+                }
+                retries++;
+            }, interval);
+        }
+
+        // Call the wait function after the script loads
+        window.onload = function () {
+            waitForCollector('54c2c1d1');
+        };
+    </script>
+</body>
+</html>
