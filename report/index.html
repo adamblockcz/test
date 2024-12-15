@@ -211,7 +211,9 @@
             </button>
         </div>
     <div class="container">
-        
+        <div id="loader" style="text-align: center; display: none; font-size: 18px; color: #333;">
+    Načítání dat...
+</div>
         <table id="issuesTable">
             <thead>
                 <tr>
@@ -232,17 +234,33 @@
 
     <script>
         async function fetchData() {
-            try {
-                const response = await fetch('https://7guaphscsyrvelrn7urhzgtjbe0hjten.lambda-url.eu-central-1.on.aws/');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const data = await response.json();
-                populateTable(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                displayError('Došlo k chybě při stahování dat.');
-            }
+             const loader = document.getElementById('loader');
+    const issuesTable = document.getElementById('issuesTable');
+
+    // Show loader and hide table initially
+    loader.style.display = 'block';
+    issuesTable.style.display = 'none';
+
+    try {
+        const response = await fetch('https://7guaphscsyrvelrn7urhzgtjbe0hjten.lambda-url.eu-central-1.on.aws/');
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        // Hide loader and show table when data is ready
+        loader.style.display = 'none';
+        issuesTable.style.display = 'table';
+
+        populateTable(data);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+
+        // Hide loader and show error message in the table
+        loader.style.display = 'none';
+        issuesTable.style.display = 'table';
+        displayError('Došlo k chybě při stahování dat.');
+    }
         }
 
         function populateTable(data) {
