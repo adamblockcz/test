@@ -8,7 +8,29 @@
             const collectorButton = document.querySelector(`#atlwdg-trigger`);
             if (collectorButton) {
                 clearInterval(intervalId); // Stop checking
-                collectorButton.click(); // Trigger the collector
+                // Style the collector button to resemble Jira-like style
+                collectorButton.style.backgroundColor = '#0079bf'; // Jira blue
+                collectorButton.style.color = 'white';
+                collectorButton.style.border = 'none';
+                collectorButton.style.padding = '8px 16px';
+                collectorButton.style.fontSize = '14px';
+                collectorButton.style.cursor = 'pointer';
+
+                // Create a new button with a Jira-like style
+                const redirectButton = document.createElement('button');
+                redirectButton.textContent = 'Go to Report';
+                redirectButton.style.backgroundColor = '#0079bf'; // Jira blue
+                redirectButton.style.color = 'white';
+                redirectButton.style.border = 'none';
+                redirectButton.style.padding = '8px 16px';
+                redirectButton.style.fontSize = '14px';
+                redirectButton.style.cursor = 'pointer';
+                redirectButton.onclick = function() {
+                    window.location.href = 'https://adamblockcz.github.io/test/report/';
+                };
+
+                // Add the new button to the body
+                document.body.appendChild(redirectButton);
             } else if (retries >= maxRetries) {
                 clearInterval(intervalId); // Stop trying after max retries
                 console.warn("JIRA Issue Collector did not load in time.");
