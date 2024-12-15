@@ -9,28 +9,46 @@
             if (collectorButton) {
                 clearInterval(intervalId); // Stop checking
                 // Style the collector button to resemble Jira-like style
-                collectorButton.style.backgroundColor = '#0079bf'; // Jira blue
+                collectorButton.style.backgroundColor = '#0052CC'; // Jira blue
                 collectorButton.style.color = 'white';
                 collectorButton.style.border = 'none';
-                collectorButton.style.padding = '8px 16px';
-                collectorButton.style.fontSize = '14px';
+                collectorButton.style.padding = '12px 24px';
+                collectorButton.style.fontSize = '16px';
                 collectorButton.style.cursor = 'pointer';
+                collectorButton.style.position = 'absolute';
+                collectorButton.style.left = '50%';
+                collectorButton.style.transform = 'translateX(-50%)';
 
                 // Create a new button with a Jira-like style
                 const redirectButton = document.createElement('button');
                 redirectButton.textContent = 'Go to Report';
-                redirectButton.style.backgroundColor = '#0079bf'; // Jira blue
+                redirectButton.style.backgroundColor = '#0052CC'; // Jira blue
                 redirectButton.style.color = 'white';
                 redirectButton.style.border = 'none';
-                redirectButton.style.padding = '8px 16px';
-                redirectButton.style.fontSize = '14px';
+                redirectButton.style.padding = '12px 24px';
+                redirectButton.style.fontSize = '16px';
                 redirectButton.style.cursor = 'pointer';
+                redirectButton.style.position = 'absolute';
+                redirectButton.style.left = '50%';
+                redirectButton.style.transform = 'translateX(-50%)';
                 redirectButton.onclick = function() {
                     window.location.href = 'https://adamblockcz.github.io/test/report/';
                 };
 
-                // Add the new button to the body
-                document.body.appendChild(redirectButton);
+                // Add the new button next to the collector button
+                const container = document.createElement('div');
+                container.style.display = 'flex';
+                container.style.gap = '20px';
+                container.style.justifyContent = 'center';
+                container.appendChild(collectorButton);
+                container.appendChild(redirectButton);
+
+                // Center the buttons horizontally
+                container.style.position = 'absolute';
+                container.style.top = '50%';
+                container.style.transform = 'translateY(-50%)';
+
+                document.body.appendChild(container);
             } else if (retries >= maxRetries) {
                 clearInterval(intervalId); // Stop trying after max retries
                 console.warn("JIRA Issue Collector did not load in time.");
