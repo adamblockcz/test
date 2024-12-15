@@ -12,7 +12,7 @@
             background-color: #f2f4f8;
         }
         .container {
-            max-width: 100%;
+            max-width: 90%;
             margin: 20px auto;
             padding: 10px;
             background-color: #fff;
@@ -20,20 +20,32 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
         }
         .header {
-            background-color: #0052CC;
-            color: white;
-            height: 70px;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            position: relative;
-            border-radius: 5px 5px 0 0;
-        }
+    position: relative; /* Set positioning context for absolute children */
+    width: 100%;
+    background-color: #0052CC;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the header text */
+}
         .header h1 {
             margin: 0 auto;
-            font-size: 20px;
+            font-size: 24px;
+            font-weight: bold;
             text-align: center;
         }
+        
+        .back-button, .refresh-button {
+    position: absolute;
+    top: 50%; /* Vertically center within the header */
+    transform: translateY(-50%);
+}
+        
         .refresh-button {
             background-color: #0052CC;
             color: white;
@@ -189,8 +201,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
+    <div class="header">
             <a href="https://adamblockcz.github.io/test/" class="back-button">
                 &#8592;<span>Back</span>
             </a>
@@ -199,6 +210,8 @@
                 <span class="refresh-icon">&#8635;</span>
             </button>
         </div>
+    <div class="container">
+        
         <table id="issuesTable">
             <thead>
                 <tr>
